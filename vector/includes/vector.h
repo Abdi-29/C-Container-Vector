@@ -2,32 +2,29 @@
 #define VECTOR_H
 
 #include "bool.h"
+#include "status.h"
+#include <stdlib.h>
+
+typedef size_t size_type;
+//TODO move this function to lib
+#define ft_max(a,b) (((a)>(b))?(a):(b))
 
 typedef struct s_vector {
-	void	**items;
-	int		capacity;
-	int		size;
+	void		**items;
+	size_type	capacity;
+	size_type	size;
 } 			t_vector;
 
-typedef struct s_function_pointer {
-	int 		(*pfVectorTotal)(t_vector *);
-	int			(*pfVectorResize)(t_vector *, int);
-	int 		(*pfVectorAdd)(t_vector *, void *);
-	int 		(*pfVectorSet)(t_vector *, int, void *);
-	void		*(*pfVectorGet)(t_vector *, int);
-	int 		(*pfVectorDelete)(t_vector *, int);
-	int 		(*pfVectorFree)(t_vector *);
-	e_bool 		(*pfVectorEmpty)();
-	t_vector	vector;
-}				t_function_pointer;
+e_status 	vector_init(t_vector **v);
+size_type	size(t_vector *v);
+e_status	resize(t_vector *v, size_type count);
+e_status 	push_back(t_vector *v, void *val);
+int 		VectorSet(t_vector *v, int index, void *val);
+void		*get(t_vector *v, size_type index);
+int 		vector_delete(t_vector *v, int index);
+int 		deallocate(t_vector *v);
+e_status	reserve(t_vector *v, size_type count);
+e_bool 		empty(void);
 
-void	vector_init(t_vector *v);
-int		size(t_vector v*);
-int		resize(t_vector *v, int size);
-int 	push_back(t_vector *v, void *val);
-int 	VectorSet(t_vector *v, int index, void *val);
-void	*get(t_vector *, int index);
-int 	vector_delete(t_vector *v, int index);
-int 	deallocate(t_vector *v);
-e_bool 	empty(void);
+e_status	reduce_elements(t_vector *v, size_type count);
 #endif
