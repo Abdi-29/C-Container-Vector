@@ -34,7 +34,6 @@ e_status	resize(t_vector *v, size_type count) {
 }
 
 e_status	reserve(t_vector *v, size_type count) {
-	printf("reserve: the size[%p]\n", v);
 	void **items = realloc(v->items, sizeof(void *) * count);
 	if(!items) {
 		return MALLOC_ERROR;
@@ -64,6 +63,33 @@ void	*get(t_vector *v, size_type index) {
 	return v->items[index];
 }
 
+e_status 	set(t_vector *v, size_type index, void *val) {
+	if(index >= v->size) {
+		return OUT_OF_RANGE;
+	}
+	v->items[index] = val;
+	return SUCCESS;
+}
+
+e_bool 		empty(t_vector *v) {
+	return v->size == 0;
+}
+
+e_status 	delete(t_vector *v, size_type index) {
+	if(index >= v->size) {
+		return OUT_OF_RANGE;
+	}
+	for(size_type i = index; i < v->size; ++i) {
+		v->items[i] = v->items[i + 1];
+	}
+	v->size--;
+	return SUCCESS;
+}
+
+e_status 	deallocate(t_vector *v) {
+	return SUCCESS;
+}
+
 int main(void) {
 	t_vector *v;
 
@@ -75,11 +101,17 @@ int main(void) {
 	push_back(v, "hello");
 	push_back(v, "ciao");
 	push_back(v, "salut");
-	push_back(v, "hello");
-	push_back(v, "ciao");
-	push_back(v, "salut");
 	for(size_type i = 0; i < v->size; ++i) {
 		printf("testing vector: [%s]\n", (char *) get(v, i));
 	}
-	printf("capacity = %zu\n", v->capacity);
+//	resize(v,2);
+	printf("--------------------------------------------------------------\n");
+	for(size_type i = 0; i < v->size; ++i) {
+		printf("testing vector: [%s]\n", (char *) get(v, i));
+	}
+	printf("--------------------------------------------------------------\n");
+	delete(v, 0);
+	for(size_type i = 0; i < v->size; ++i) {
+		printf("testing vector: [%s]\n", (char *) get(v, i));
+	}
 }

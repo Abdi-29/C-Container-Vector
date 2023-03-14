@@ -4,6 +4,7 @@
 typedef enum {
 	MALLOC_ERROR,
 	UNDEFINED,
+	OUT_OF_RANGE,
 	SUCCESS
 }	e_status;
 #endif
